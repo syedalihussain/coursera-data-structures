@@ -37,14 +37,32 @@ public class tree_height {
 
         int computeHeight() {
             // Replace this code with a faster implementation
+            // -1 0 4 0 3
+            //  3 0 0 2 1
+            //  4 -1 4 1 1
             int maxHeight = 0;
+            int[] depths = new int[n];
+            int height = 0;
+            int rootIndex = 0;
             for (int vertex = 0; vertex < n; vertex++) {
-                int height = 0;
-                for (int i = vertex; i != -1; i = parent[i])
-                    height++;
-                maxHeight = Math.max(maxHeight, height);
+                if(depths[vertex] == 0 && parent[vertex] != -1) {
+                    height = -1;
+                    for (int i = vertex; i != -1; i = parent[i]) {
+                        if (height + 1 < depths[i]) {
+                            break;
+                        }
+                        depths[i] = height + 1;
+                        height++;
+                    }
+                }
             }
-            return maxHeight;
+            for (int i = 0; i < parent.length; i++) {
+                if (parent[i] == -1) {
+                    rootIndex = i;
+                    break;
+                }
+            }
+            return depths[rootIndex] + 1;
         }
     }
 

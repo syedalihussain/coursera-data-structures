@@ -40,6 +40,10 @@ class check_brackets {
             }
 
             if (next == ')' || next == ']' || next == '}') {
+                if (opening_brackets_stack.size() == 0) {
+                    opening_brackets_stack.push(new Bracket(next, position));
+                    break;
+                }
                 Bracket last = opening_brackets_stack.pop();
                 if (!last.Match(next)) {
                     opening_brackets_stack.push(new Bracket(next, position));
